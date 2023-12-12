@@ -1,6 +1,8 @@
 package otp
 
 import (
+	"crypto/rand"
+	"encoding/base32"
 	"fmt"
 	"net/url"
 	"strings"
@@ -85,4 +87,20 @@ func BuildUri(otpType, secret, accountName, issuerName, algorithm string, initia
 		RawQuery: q.Encode(),
 	}
 	return u.String()
+}
+
+// RandomSecret generates a random secret of given length (number of bytes)
+// returns empty string if something bad happened
+func RandomSecret(length int) string {
+	var result string
+	secret := make([]byte, length)
+	gen, err := rand.Read(secret)
+	if err != nil || gen != length {
+		// error reading random, return empty string
+		return result
+	}
+
+	encoder := base32.StdEncoding.WithPadding(base32.NoPadding)
+	result = encoder.EncodeToString(secret)
+	return result
 }
