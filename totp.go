@@ -34,3 +34,10 @@ func (t *TOTP) AtTime(timestamp time.Time) string {
 func (t *TOTP) Now() string {
 	return t.At(currentTimestamp())
 }
+
+// Generate the current time OTP and expiration time
+func (t *TOTP) NowWithExpiration() (string, int64) {
+	timeCodeInt64 := t.timecode(currentTimestamp())
+	expirationTime := (timeCodeInt64 + 1) * int64(t.interval)
+	return t.generateOTP(timeCodeInt64), expirationTime
+}
