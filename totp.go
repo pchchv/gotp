@@ -57,3 +57,30 @@ func (t *TOTP) Verify(otp string, timestamp int64) bool {
 func (t *TOTP) VerifyTime(otp string, timestamp time.Time) bool {
 	return t.Verify(otp, timestamp.Unix())
 }
+
+/*
+Returns the provisioning URI for the OTP.
+This can then be encoded in a QR Code and used to provision an OTP app like Google Authenticator.
+
+See also:
+
+	https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+
+params:
+
+	accountName: name of the account
+	issuerName:  the name of the OTP issuer; this will be the organization title of the OTP entry in Authenticator
+
+returns: provisioning URI
+*/
+func (t *TOTP) ProvisioningUri(accountName, issuerName string) string {
+	return BuildUri(
+		OtpTypeTotp,
+		t.secret,
+		accountName,
+		issuerName,
+		t.hasher.HashName,
+		0,
+		t.digits,
+		t.interval)
+}
