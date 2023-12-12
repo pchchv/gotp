@@ -41,3 +41,19 @@ func (t *TOTP) NowWithExpiration() (string, int64) {
 	expirationTime := (timeCodeInt64 + 1) * int64(t.interval)
 	return t.generateOTP(timeCodeInt64), expirationTime
 }
+
+/*
+Verify OTP.
+
+params:
+
+	otp:         the OTP to check against
+	timestamp:   time to check OTP at
+*/
+func (t *TOTP) Verify(otp string, timestamp int64) bool {
+	return otp == t.At(timestamp)
+}
+
+func (t *TOTP) VerifyTime(otp string, timestamp time.Time) bool {
+	return t.Verify(otp, timestamp.Unix())
+}
