@@ -3,9 +3,11 @@ package otp
 import (
 	"crypto/hmac"
 	"crypto/sha1"
+	"encoding/base32"
 	"fmt"
 	"hash"
 	"math"
+	"strings"
 )
 
 type Hasher struct {
@@ -55,4 +57,17 @@ func (o *OTP) generateOTP(input int64) string {
 
 	code = code % int(math.Pow10(o.digits))
 	return fmt.Sprintf(fmt.Sprintf("%%0%dd", o.digits), code)
+}
+
+func (o *OTP) byteSecret() []byte {
+	missingPadding := len(o.secret) % 8
+	if missingPadding != 0 {
+		o.secret = o.secret + strings.Repeat("=", 8-missingPadding)
+	}
+
+	bytes, err := base32.StdEncoding.DecodeString(o.secret)
+	if err != nil {
+		panic("decode secret failed")
+	}
+	return bytes
 }
