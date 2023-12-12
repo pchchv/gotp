@@ -31,3 +31,31 @@ params:
 func (h *HOTP) Verify(otp string, count int) bool {
 	return otp == h.At(count)
 }
+
+/*
+Returns the provisioning URI for the OTP.
+This can then be encoded in a QR Code and used to provision an OTP app like Google Authenticator.
+
+See also:
+
+	https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+
+params:
+
+	accountName:  name of the account
+	issuerName:   the name of the OTP issuer; this will be the organization title of the OTP entry in Authenticator
+	initialCount: starting HMAC counter value
+
+returns: provisioning URI
+*/
+func (h *HOTP) ProvisioningUri(accountName, issuerName string, initialCount int) string {
+	return BuildUri(
+		OtpTypeHotp,
+		h.secret,
+		accountName,
+		issuerName,
+		h.hasher.HashName,
+		initialCount,
+		h.digits,
+		0)
+}
