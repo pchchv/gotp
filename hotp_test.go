@@ -10,3 +10,9 @@ func TestHOTP_At(t *testing.T) {
 		t.Error("HOTP generate otp error")
 	}
 }
+
+func TestHOTP_Verify(t *testing.T) {
+	if !hotp.Verify("194001", 12345) {
+		t.Error("verify faild")
+	}
+}
