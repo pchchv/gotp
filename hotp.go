@@ -1,4 +1,4 @@
-package otp
+package gotp
 
 // HMAC-based OTP counters.
 type HOTP struct {

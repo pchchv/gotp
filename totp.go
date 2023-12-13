@@ -1,4 +1,4 @@
-package otp
+package gotp
 
 import "time"
 
