@@ -20,3 +20,11 @@ func TestTOTP_Verify(t *testing.T) {
 		t.Error("verify faild")
 	}
 }
+
+func TestTOTP_ProvisioningUri(t *testing.T) {
+	expect := "otpauth://totp/github:xlzd?issuer=github&secret=4S62BZNFXXSZLCRO"
+	uri := totp.ProvisioningUri("xlzd", "github")
+	if expect != uri {
+		t.Errorf("ProvisioningUri error.\n\texpected: %s,\n\tactual: %s", expect, uri)
+	}
+}
