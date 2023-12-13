@@ -45,3 +45,10 @@ func TestBuildUri(t *testing.T) {
 		t.Errorf("BuildUri test failed.\n\texpected: %s,\n\tactual: %s", expected2, s2)
 	}
 }
+
+func TestRandomSecret(t *testing.T) {
+	secret := otp.RandomSecret(64)
+	if len(secret) == 0 {
+		t.Error("RandomSecret error")
+	}
+}
