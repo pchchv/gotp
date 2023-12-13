@@ -52,3 +52,15 @@ func TestRandomSecret(t *testing.T) {
 		t.Error("RandomSecret error")
 	}
 }
+
+func TestIsSecretValid(t *testing.T) {
+	valid := otp.RandomSecret(64)
+	if !otp.IsSecretValid(valid) {
+		t.Error("IsSecretValid error - RandomSecret(64) is not valid")
+	}
+
+	invalid := "asdsada"
+	if otp.IsSecretValid(invalid) {
+		t.Error("IsSecretValid error - Bad secret is valid")
+	}
+}
