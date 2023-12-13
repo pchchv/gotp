@@ -1,3 +1,3 @@
-module github.com/pchchv/otp
+module github.com/pchchv/gotp
 
 go 1.21.5
