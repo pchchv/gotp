@@ -7,6 +7,9 @@ import (
 )
 
 func main() {
+	fmt.Println("Random secret:", gotp.RandomSecret(16))
+	defaultTOTPUsage()
+	defaultHOTPUsage()
 }
 
 func defaultTOTPUsage() {
