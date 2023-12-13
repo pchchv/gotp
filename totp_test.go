@@ -1,13 +1,11 @@
-package otp_test
+package otp
 
 import (
 	"testing"
 	"time"
-
-	"github.com/pchchv/otp"
 )
 
-var totp = otp.NewDefaultTOTP("4S62BZNFXXSZLCRO")
+var totp = NewDefaultTOTP("4S62BZNFXXSZLCRO")
 
 func TestTOTP_AtTime(t *testing.T) {
 	if totp.Now() != totp.AtTime(time.Now()) {
@@ -28,3 +26,22 @@ func TestTOTP_ProvisioningUri(t *testing.T) {
 		t.Errorf("ProvisioningUri error.\n\texpected: %s,\n\tactual: %s", expect, uri)
 	}
 }
+
+/*
+func TestTOTP_At(t *testing.T) {
+	if totp.Now() != totp.At(currentTimestamp()) {
+		t.Error("TOTP generate otp error!")
+	}
+}
+
+func TestTOTP_NowWithExpiration(t *testing.T) {
+	otp, exp := totp.NowWithExpiration()
+	cts := currentTimestamp()
+	if otp != totp.Now() {
+		t.Error("TOTP generate otp error!")
+	}
+	if totp.At(cts+30) != totp.At(exp) {
+		t.Error("TOTP expiration otp error!")
+	}
+}
+*/
