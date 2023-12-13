@@ -1,22 +1,20 @@
-package otp_test
+package otp
 
 import (
 	"testing"
-
-	"github.com/pchchv/otp"
 )
 
 func TestITob(t *testing.T) {
 	var i int64 = 1524486261
 	expect := []byte{0, 0, 0, 0, 90, 221, 208, 117}
 
-	if string(expect) != string(otp.Itob(i)) {
+	if string(expect) != string(Itob(i)) {
 		t.Error("ITob error")
 	}
 }
 
 func TestBuildUri(t *testing.T) {
-	s := otp.BuildUri(
+	s := BuildUri(
 		"totp",
 		"4S62BZNFXXSZLCRO",
 		"xlzd",
@@ -31,7 +29,7 @@ func TestBuildUri(t *testing.T) {
 		t.Errorf("BuildUri test failed.\n\texpected: %s,\n\tactual: %s", expected, s)
 	}
 
-	s2 := otp.BuildUri(
+	s2 := BuildUri(
 		"hotp",
 		"XXSZLCRO4S62BZNF",
 		"mergenchik@gmail.com",
@@ -47,20 +45,20 @@ func TestBuildUri(t *testing.T) {
 }
 
 func TestRandomSecret(t *testing.T) {
-	secret := otp.RandomSecret(64)
+	secret := RandomSecret(64)
 	if len(secret) == 0 {
 		t.Error("RandomSecret error")
 	}
 }
 
 func TestIsSecretValid(t *testing.T) {
-	valid := otp.RandomSecret(64)
-	if !otp.IsSecretValid(valid) {
+	valid := RandomSecret(64)
+	if !IsSecretValid(valid) {
 		t.Error("IsSecretValid error - RandomSecret(64) is not valid")
 	}
 
 	invalid := "asdsada"
-	if otp.IsSecretValid(invalid) {
+	if IsSecretValid(invalid) {
 		t.Error("IsSecretValid error - Bad secret is valid")
 	}
 }
